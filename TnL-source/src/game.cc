@@ -1,3 +1,4 @@
+#include "sigc++/functors/mem_fun.h"
 #include <stdexcept>
 #include <cstdio>
 #include <cstdlib>
@@ -186,7 +187,7 @@ void Game::startupSystem(Status & stat) {
 #endif // HAVE_IO
 
     event_remapper = new EventRemapper();
-    event_remapper->sig_action_triggered.connect(SigC::slot(*this, &Game::actionTriggered));
+    event_remapper->sig_action_triggered.connect(sigc::mem_fun(*this, &Game::actionTriggered));
 
     ls_message("Initializing SDL: ");
     if (-1 == SDL_Init( SDL_INIT_VIDEO |
@@ -544,7 +545,7 @@ void Game::run()
         Status stat;
         startupSystem(stat);
         LoadingScreen lscr(this, config->query("Game_loading_screen"));
-        stat.getSignal().connect(SigC::slot(lscr, &LoadingScreen::update));
+        stat.getSignal().connect(sigc::mem_fun(lscr, &LoadingScreen::update));
         startupSimulation(stat);
     }
     
@@ -582,7 +583,7 @@ void Game::run()
         Status stat;
         {
             LoadingScreen lscr(this, config->query("Game_loading_screen"));
-            stat.getSignal().connect(SigC::slot(lscr, &LoadingScreen::update));
+            stat.getSignal().connect(sigc::mem_fun(lscr, &LoadingScreen::update));
             teardownSimulation(stat);
         }
         teardownSystem(stat);
@@ -1011,7 +1012,7 @@ const RenderContext *Game::getCurrentContext()
 void Game::restartSimulation() {
     Status stat;
     LoadingScreen lscr(this, config->query("Game_loading_screen"));
-    stat.getSignal().connect(SigC::slot(lscr, &LoadingScreen::update));
+    stat.getSignal().connect(sigc::mem_fun(lscr, &LoadingScreen::update));
     stat.beginJob("Restarting simulation", 2);
     teardownSimulation(stat);
     startupSimulation(stat);

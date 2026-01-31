@@ -4,10 +4,8 @@
 
 using namespace std;
 
-template<class T>
-IntervalBase<T> intersection(const IntervalBase<T> & X,
-							 const IntervalBase<T> & Y)
-            throw(std::invalid_argument)
+template<class T> IntervalBase<T>
+intersection(const IntervalBase<T> & X, const IntervalBase<T> & Y) noexcept(false) // throw(std::invalid_argument)
 {
     IntervalBase<T> result(std::max(X.a, Y.a), std::min(X.b, Y.b));
     if (result.length() < 0)

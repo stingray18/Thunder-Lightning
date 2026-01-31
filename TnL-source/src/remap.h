@@ -191,7 +191,7 @@ public:
     /// Called within SDL event handling, but may be called by user too, to trigger a named action
     bool triggerAction(const char * action);
     /// Emitted within triggerAction()
-    SigC::Signal1<void, const char *> sig_action_triggered;
+    sigc::signal<void(const char*)> sig_action_triggered;
 
     inline Ptr<DataNode> getControls() { return controls; }
 

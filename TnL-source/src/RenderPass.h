@@ -88,7 +88,7 @@ public:
     
     /// @name Signals to perform customized drawing
     /// @{
-    typedef SigC::Signal1<void, Ptr<RenderPass> > RenderSignal;
+    typedef sigc::signal<void(Ptr<RenderPass>)> RenderSignal;
     /// This signal is fired before dependencies are rendered
     RenderSignal & preDepends();
     /// This signal is fired before draw() gets executed

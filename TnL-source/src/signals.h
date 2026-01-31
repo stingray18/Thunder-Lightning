@@ -2,23 +2,25 @@
 #ifndef SIGNALS_H
 #define SIGNALS_H
 
+#include <sigc++/sigc++.h>
+
 // ActionSignal
-typedef SigC::Signal0<void> ActionSignal;
-typedef SigC::Slot0<void> ActionSlot;
+typedef sigc::signal<void> ActionSignal;
+typedef sigc::slot<void> ActionSlot;
 
 // SwitchSignal
 // on/off = true/false
-typedef SigC::Signal1<void, bool> SwitchSignal;
-typedef SigC::Slot1<void, bool> SwitchSlot;
+typedef sigc::signal<void, bool> SwitchSignal;
+typedef sigc::slot<void, bool> SwitchSlot;
 
 // KeyboardSignal
 // Keycode, pressed
-typedef SigC::Signal2<void, int, bool> KeyboardSignal;
-typedef SigC::Slot2<void, int, bool> KeyboardSlot;
+typedef sigc::signal<void, int, bool> KeyboardSignal;
+typedef sigc::slot<void, int, bool> KeyboardSlot;
 
 // MouseMoveSignal
 // x,y
-typedef SigC::Signal2<void, int, int> MouseMoveSignal;
-typedef SigC::Slot2<void, int, int> MouseMoveSlot;
+typedef sigc::signal<void, int, int> MouseMoveSignal;
+typedef sigc::slot<void, int, int> MouseMoveSlot;
 
 #endif
