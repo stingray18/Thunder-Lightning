@@ -197,7 +197,6 @@ void Game::startupSystem(Status & stat) {
         throw runtime_error(err);
     }
     SDL_EnableUNICODE(true);
-    SDL_EnableKeyRepeat(0, 0);
 
     ls_message("Found %d joysticks.\n", SDL_NumJoysticks());
     SDL_JoystickEventState(SDL_ENABLE);
