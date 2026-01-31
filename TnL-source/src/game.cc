@@ -190,10 +190,7 @@ void Game::startupSystem(Status & stat) {
     event_remapper->sig_action_triggered.connect(sigc::mem_fun(*this, &Game::actionTriggered));
 
     ls_message("Initializing SDL: ");
-    if (-1 == SDL_Init( SDL_INIT_VIDEO |
-                        SDL_INIT_JOYSTICK |
-                        (config->queryBool("Game_enable_SDL_parachute", true)?
-                        	0:SDL_INIT_NOPARACHUTE) )  )
+    if (-1 == SDL_Init( SDL_INIT_VIDEO | SDL_INIT_JOYSTICK );
     {
         const char * err = SDL_GetError();
         ls_error("error: %s\n", err);
