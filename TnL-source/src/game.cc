@@ -1,3 +1,5 @@
+#include "SDL_joystick.h"
+#include "SDL_oldnames.h"
 #include "sigc++/functors/mem_fun.h"
 #include <stdexcept>
 #include <cstdio>
@@ -190,20 +192,29 @@ void Game::startupSystem(Status & stat) {
     event_remapper->sig_action_triggered.connect(sigc::mem_fun(*this, &Game::actionTriggered));
 
     ls_message("Initializing SDL: ");
-    if (-1 == SDL_Init( SDL_INIT_VIDEO | SDL_INIT_JOYSTICK );
+    if (-1 == SDL_Init( SDL_INIT_VIDEO | SDL_INIT_JOYSTICK ))
     {
         const char * err = SDL_GetError();
         ls_error("error: %s\n", err);
         throw runtime_error(err);
     }
-    SDL_EnableUNICODE(true);
+    // SDL_EnableUNICODE(true); // TODO: replace
 
-    ls_message("Found %d joysticks.\n", SDL_NumJoysticks());
-    SDL_JoystickEventState(SDL_ENABLE);
-    for(int i=0; i<SDL_NumJoysticks(); i++) {
-        SDL_JoystickOpen(i);
-        ls_message("  Joystick %d: '%s'\n", i, SDL_JoystickName(i));
-    }
+		int nJoysticks = 0;
+		SDL_JoystickID* jid = SDL_GetJoysticks(&nJoysticks);
+		if (nJoysticks) {
+			SDL_Joystick* joystick = SDL_OpenJoystick(*jid);
+			if (joystick) {
+        ls_message("  Joystick %d: '%s'\n", nJoysticks, SDL_GetJoystickName(joystick));
+		}
+			jid++;
+		}
+    ls_message("Found %d joysticks.\n", nJoysticks);
+    SDL_SetJoystickEventsEnabled(true); // SDL_JoystickEventState(SDL_ENABLE);
+    // for(int i=0; i<SDL_NumJoysticks(); i++) {
+    //     SDL_JoystickOpen(i);
+    //     ls_message("  Joystick %d: '%s'\n", i, SDL_JoystickName(i));
+    // }
     ls_message("done.\n");
 
     ls_message("Initializing video.\n");
@@ -278,7 +289,7 @@ void Game::startupSystem(Status & stat) {
         renderer->resize(xres, yres);
         ls_message("Done initializing OpenGL renderer.\n");
         
-        SDL_WM_SetCaption("Thunder&Lightning http://tnlgame.net/", "Thunder&Lightning");
+        // SDL_WM_SetCaption("Thunder&Lightning http://tnlgame.net/", "Thunder&Lightning"); // TODO: replace
     }
     ls_message("Done initializing video.\n");
     
@@ -385,7 +396,7 @@ void Game::teardownSystem(Status & stat) {
     modelman = 0;
     
     SDL_WM_GrabInput(SDL_GRAB_OFF);
-    SDL_ShowCursor(SDL_ENABLE);
+    SDL_ShowCursor();
     
     if (config->queryBool("Game_restore_resolution", false)) {
         ls_message("Restoring screen resolution.\n");
@@ -750,7 +761,7 @@ void Game::doEvents()
             
             if (config->queryBool("Game_grab_mouse",false)) {
                 SDL_WM_GrabInput(SDL_GRAB_ON);
-                SDL_ShowCursor(SDL_DISABLE);
+                SDL_HideCursor();
             }
             ls_message("Mouse grab aquired.\n");
         }
@@ -759,7 +770,7 @@ void Game::doEvents()
             ls_message("ActiveEvent of state %d with gain %d\n", event.active.state, event.active.gain);
             if (!event.active.gain) {
                 SDL_WM_GrabInput(SDL_GRAB_OFF);
-                SDL_ShowCursor(SDL_ENABLE);
+                SDL_ShowCursor();
                 mouse_grabbed = false;
                 ls_message("Mouse grab released.\n");
             }
