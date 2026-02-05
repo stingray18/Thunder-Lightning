@@ -108,25 +108,22 @@ template<class T> struct IntervalBase {
         return X = X * Y;
     }
     
-    friend IntervalBase inv<>(const IntervalBase & X)
-        throw(std::invalid_argument);
+    friend IntervalBase inv<>(const IntervalBase & X);
+
 
     inline friend IntervalBase operator/ (const IntervalBase & X,
                                           const IntervalBase & Y)
-            throw(std::invalid_argument)
     {
         return X * inv(Y);
     }
     inline friend const IntervalBase & operator /= (IntervalBase & X,
                                               const IntervalBase & Y)
-            throw(std::invalid_argument)
     {
         return X = X / Y;
     }
 
 
     inline friend IntervalBase sqrt(const IntervalBase & X)
-            throw(std::invalid_argument)
     {
         if (X.a >= 0) return IntervalBase(sqrt(X.a), sqrt(X.b));
         else throw std::invalid_argument("Interval must be >= 0.");

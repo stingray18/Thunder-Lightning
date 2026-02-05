@@ -81,7 +81,7 @@ class Skeleton : public Object {
     
 public:
     /// Constructs a skeleton given the name of a skeleton specfile
-    inline Skeleton(Ptr<IGame> game, const std::string & filename) throw(std::invalid_argument)
+    inline Skeleton(Ptr<IGame> game, const std::string & filename)
         : bounding_radius(0)
     { load(game, filename); }
     ~Skeleton();
@@ -128,7 +128,7 @@ public:
     void draw(JRenderer & r);
     
 private:
-    void load(Ptr<IGame> game, const std::string & filename) throw(std::invalid_argument) ;
+    void load(Ptr<IGame> game, const std::string & filename);
 };
 
 
