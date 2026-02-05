@@ -29,7 +29,9 @@ class Camera;
 
 class Game: public IGame, public ActorStage, public SigObject
 {
+#ifdef __EMSCRIPTEN__
     friend EM_BOOL one_iter(double time, void* userData);
+#endif
 public:
     static Game * the_game;
 
