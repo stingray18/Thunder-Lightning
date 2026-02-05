@@ -1,5 +1,8 @@
+#include "SDL_events.h"
 #include "SDL_joystick.h"
+#include "SDL_mouse.h"
 #include "SDL_oldnames.h"
+#include "SDL_video.h"
 #include "sigc++/functors/mem_fun.h"
 #include <stdexcept>
 #include <cstdio>
@@ -224,26 +227,26 @@ void Game::startupSystem(Status & stat) {
         bool fullscreen = config->queryBool("Game_fullscreen", false);
         bool autores = config->queryBool("Game_auto_resolution", false);
         
-        if (fullscreen) {
-            const SDL_VideoInfo * info = SDL_GetVideoInfo();
-            
-            char buf[16];
-            
-            if (autores) {
-                xres = info->current_w;
-                yres = info->current_h;
-                sprintf(buf, "%d", xres);
-                config->set("Game_xres", buf);
-                sprintf(buf, "%d", yres);
-                config->set("Game_yres", buf);
-            } else {
-                config->set("Game_restore_resolution", "true");
-                sprintf(buf, "%d", xres);
-                config->set("Game_restore_resx", buf);
-                sprintf(buf, "%d", yres);
-                config->set("Game_restore_resy", buf);
-            }
-        }
+        // if (fullscreen) {
+        //     const SDL_VideoInfo * info = SDL_GetVideoInfo();
+        //
+        //     char buf[16];
+        //
+        //     if (autores) {
+        //         xres = info->current_w;
+        //         yres = info->current_h;
+        //         sprintf(buf, "%d", xres);
+        //         config->set("Game_xres", buf);
+        //         sprintf(buf, "%d", yres);
+        //         config->set("Game_yres", buf);
+        //     } else {
+        //         config->set("Game_restore_resolution", "true");
+        //         sprintf(buf, "%d", xres);
+        //         config->set("Game_restore_resx", buf);
+        //         sprintf(buf, "%d", yres);
+        //         config->set("Game_restore_resy", buf);
+        //     }
+        // }
         
         ls_message("Requested mode: %dx%d (%s, %s)\n",
                 xres, yres,
@@ -266,12 +269,16 @@ void Game::startupSystem(Status & stat) {
             ls_message("Fullscreen mode disabled: This is a debug build.\n");
         }
 #endif
-        if(fullscreen) {
-            surface = SDL_SetVideoMode(xres, yres, 32,
-                    SDL_OPENGL | SDL_FULLSCREEN);
-        } else {
-            surface = SDL_SetVideoMode(xres, yres, 32, SDL_OPENGL);
-        }
+        // if(fullscreen) {
+        //     surface = SDL_SetVideoMode(xres, yres, 32,
+        //             SDL_OPENGL | SDL_FULLSCREEN);
+        // } else {
+        //     surface = SDL_SetVideoMode(xres, yres, 32, SDL_OPENGL);
+        // }
+				SDL_WindowFlags windowFlags = SDL_WINDOW_OPENGL;
+				if (fullscreen) {
+					windowFlags |= SDL_WINDOW_FULLSCREEN;
+				}
         if (!surface) {
             ls_error("Failed requesting video mode.\n");
             throw runtime_error("Could not initialize OpenGL surface.");
@@ -290,6 +297,7 @@ void Game::startupSystem(Status & stat) {
         ls_message("Done initializing OpenGL renderer.\n");
         
         // SDL_WM_SetCaption("Thunder&Lightning http://tnlgame.net/", "Thunder&Lightning"); // TODO: replace
+				mainWindow_ = SDL_CreateWindow("Thunder&Lightning", 1024, 768, windowFlags);
     }
     ls_message("Done initializing video.\n");
     
@@ -395,16 +403,16 @@ void Game::teardownSystem(Status & stat) {
     soundman = 0;
     modelman = 0;
     
-    SDL_WM_GrabInput(SDL_GRAB_OFF);
+    // SDL_WM_GrabInput(SDL_GRAB_OFF); // TODO: replace
     SDL_ShowCursor();
     
-    if (config->queryBool("Game_restore_resolution", false)) {
-        ls_message("Restoring screen resolution.\n");
-        SDL_SetVideoMode(
-            config->queryInt("Game_restore_resx"),
-            config->queryInt("Game_restore_resy"),
-            32, SDL_FULLSCREEN);
-    }
+    // if (config->queryBool("Game_restore_resolution", false)) { // TODO: replace
+    //     ls_message("Restoring screen resolution.\n");
+    //     SDL_SetVideoMode(
+    //         config->queryInt("Game_restore_resx"),
+    //         config->queryInt("Game_restore_resy"),
+    //         32, SDL_FULLSCREEN);
+    // }
     
     ls_message("Exiting SDL.\n");
     SDL_Quit();
@@ -756,41 +764,41 @@ void Game::doEvents()
         // special-case handling for some SDL events
         
         // If we don't have mouse focus, the first click grabs it again
-        if (event.type == SDL_MOUSEBUTTONDOWN && !mouse_grabbed) {
+        if (event.type == SDL_EVENT_MOUSE_BUTTON_DOWN && !mouse_grabbed) {
             mouse_grabbed = true;
             
             if (config->queryBool("Game_grab_mouse",false)) {
-                SDL_WM_GrabInput(SDL_GRAB_ON);
+                SDL_SetWindowRelativeMouseMode(mainWindow_, true);
                 SDL_HideCursor();
             }
             ls_message("Mouse grab aquired.\n");
         }
         
-        if (event.type == SDL_ACTIVEEVENT) {
-            ls_message("ActiveEvent of state %d with gain %d\n", event.active.state, event.active.gain);
-            if (!event.active.gain) {
-                SDL_WM_GrabInput(SDL_GRAB_OFF);
-                SDL_ShowCursor();
-                mouse_grabbed = false;
-                ls_message("Mouse grab released.\n");
-            }
-            if ((event.active.state & SDL_APPACTIVE) && event.active.gain==0) {
-                ls_message("Game inactive.\n");
-#ifndef __EMSCRIPTEN__
-                while(SDL_WaitEvent(&event)) {
-                    if (event.type == SDL_QUIT) {
-                        ls_message("Game quitting.\n");
-                        break;
-                    } else if (event.type == SDL_ACTIVEEVENT && (event.active.state&SDL_APPACTIVE) && event.active.gain) {
-                        ls_message("Game active again.\n");
-                        break;
-                    }
-                }
-#endif
-            }
-        }
+//         if (event.type == SDL_ACTIVEEVENT) {
+//             ls_message("ActiveEvent of state %d with gain %d\n", event.active.state, event.active.gain);
+//             if (!event.active.gain) {
+//                 SDL_SetWindowRelativeMouseMode(mainWindow_, false);
+//                 SDL_ShowCursor();
+//                 mouse_grabbed = false;
+//                 ls_message("Mouse grab released.\n");
+//             }
+//             if ((event.active.state & SDL_APPACTIVE) && event.active.gain==0) {
+//                 ls_message("Game inactive.\n");
+// #ifndef __EMSCRIPTEN__
+//                 while(SDL_WaitEvent(&event)) {
+//                     if (event.type == SDL_EVENT_QUIT) {
+//                         ls_message("Game quitting.\n");
+//                         break;
+//                     } else if (event.type == SDL_ACTIVEEVENT && (event.active.state&SDL_APPACTIVE) && event.active.gain) {
+//                         ls_message("Game active again.\n");
+//                         break;
+//                     }
+//                 }
+// #endif
+//             }
+//         }
         
-        if (event.type == SDL_QUIT) {
+        if (event.type == SDL_EVENT_QUIT) {
             endGame();
         } else {
             event_remapper->feedEvent(event);
@@ -993,7 +1001,7 @@ void Game::doFrame()
     post_draw.emit();
     
     t[n++] = SDL_GetTicks(); // mainloop_10:
-    SDL_GL_SwapBuffers();
+    SDL_GL_SwapWindow(mainWindow_);
     t[n++] = SDL_GetTicks(); // mainloop_11:
 
     updateIoScripting();
@@ -1027,7 +1035,7 @@ void Game::restartSimulation() {
 }
 
 void Game::clearScreen() {
-    SDL_GL_SwapBuffers();
+    SDL_GL_SwapWindow(mainWindow_);
     renderer->clear(true, true);
 }
 
