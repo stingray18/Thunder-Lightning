@@ -1,4 +1,4 @@
-#include <SDL/SDL_keycode.h>
+// #include <SDL/SDL_keycode.h>
 #include <interfaces/IConfig.h>
 #include <remap.h>
 #include "defaults.h"
@@ -304,11 +304,11 @@ void initialize_input(Ptr<EventRemapper> remapper)
     mapKey(SDLK_8, "throttle7");
     mapKey(SDLK_9, "throttle8");
     mapKey(SDLK_0, "throttle9");
-    mapKey(SDLK_a, "autopilot");
+    mapKey(SDLK_A, "autopilot");
     mapKey(SDLK_PLUS, "increase-throttle");
     mapKey(SDLK_MINUS, "decrease-throttle");
 
-    mapKey(SDLK_p, "pause");
+    mapKey(SDLK_P, "pause");
     mapKey(SDLK_F11, "toggle-console");
 
     mapKey(SDLK_F1, "view0");
@@ -321,29 +321,29 @@ void initialize_input(Ptr<EventRemapper> remapper)
     mapKey(SDLK_F7, "zoom-out");
     mapKey(SDLK_F8, "zoom-in");
 
-    mapKey(SDLK_n, "next-view-subject");
-    mapKey(SDLK_v, "external-view");
+    mapKey(SDLK_N, "next-view-subject");
+    mapKey(SDLK_V, "external-view");
     mapKey(SDLK_RETURN, "cycle-primary");
     mapKey(SDLK_LCTRL, "+primary");
 
     mapKey(SDLK_F12, "debug");
 
-    mapKey(SDLK_z, "previous-target");
-    mapKey(SDLK_t, "next-target");
-    mapKey(SDLK_h, "next-hostile-target");
-    mapKey(SDLK_f, "next-friendly-target");
-    mapKey(SDLK_g, "gunsight-target");
-    mapKey(SDLK_y, "nearest-target");
-    mapKey(SDLK_r, "radar-range");
+    mapKey(SDLK_Z, "previous-target");
+    mapKey(SDLK_T, "next-target");
+    mapKey(SDLK_H, "next-hostile-target");
+    mapKey(SDLK_F, "next-friendly-target");
+    mapKey(SDLK_G, "gunsight-target");
+    mapKey(SDLK_Y, "nearest-target");
+    mapKey(SDLK_R, "radar-range");
 
     mapKey(SDLK_F9, "slower");
     mapKey(SDLK_F10, "faster");
 
-    mapKey(SDLK_l, "landing-gear");
-    mapKey(SDLK_k, "landing-hook");
-    mapKey(SDLK_b, "+brake");
+    mapKey(SDLK_L, "landing-gear");
+    mapKey(SDLK_K, "landing-hook");
+    mapKey(SDLK_B, "+brake");
 
-    mapKey(SDLK_i, "toggle-introduction");
+    mapKey(SDLK_I, "toggle-introduction");
 
     mapMouseButton(1, "+primary");
     mapMouseButton(2, "gunsight-target");
