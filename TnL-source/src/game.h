@@ -129,6 +129,7 @@ private:
     bool mouse_grabbed;
     Ptr<DataNode> debug_data;
 
+		SDL_Window* mainWindow_;
     SDL_Surface *surface;
     JOpenGLRenderer *renderer;
     const RenderContext *render_context;
