@@ -1,6 +1,7 @@
 set(LIBNAME gunsight)
 
 set(${LIBNAME}_SOURCES
+	basic.cc
 	gunsight.cc
 	flight.cc
 	debug.cc
