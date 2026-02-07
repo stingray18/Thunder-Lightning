@@ -281,8 +281,8 @@ bool EventRemapper::triggerAction(const char * action)
 
 void EventRemapper::keyEvent(SDL_KeyboardEvent & ev)
 {
-    int key = ev.keysym.sym;
-    bool pressed = (ev.state == SDL_PRESSED);
+    int key = ev.key;
+    bool pressed = (ev.down == true);
     
     buttonEvent(Button(KEYBOARD_KEY, 0, key), pressed);
 }
@@ -290,7 +290,7 @@ void EventRemapper::keyEvent(SDL_KeyboardEvent & ev)
 void EventRemapper::mouseButtonEvent(SDL_MouseButtonEvent & ev)
 {
     int button = ev.button;
-    bool pressed = (ev.state == SDL_PRESSED);
+    bool pressed = (ev.down == true);
     
     buttonEvent(Button(MOUSE_BUTTON, 0, button), pressed);
 }
@@ -308,7 +308,7 @@ void EventRemapper::joyButtonEvent(SDL_JoyButtonEvent & ev)
 {
     int joy = ev.which;
     int button = ev.button;
-    bool pressed = (ev.state == SDL_PRESSED);
+    bool pressed = (ev.down == true);
     
     buttonEvent(Button(JOYSTICK_BUTTON, joy, button), pressed);
 }
