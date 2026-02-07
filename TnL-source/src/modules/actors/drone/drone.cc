@@ -30,6 +30,7 @@
 
 #include "drone.h"
 #include "DroneCockpit.h"
+#include "sigc++/functors/mem_fun.h"
 
 #include <modules/actors/SimpleView.h>
 
@@ -244,10 +245,10 @@ void Drone::init() {
     mapArmamentEvents();
     
     Ptr<EventSheet> sheet = getEventSheet();
-    sheet->map("landing-gear", SigC::slot(*this, &Drone::toggleLandingGear));
-    sheet->map("landing-hook", SigC::slot(*this, &Drone::toggleLandingHook));
+    sheet->map("landing-gear", sigc::mem_fun(*this, &Drone::toggleLandingGear));
+    sheet->map("landing-hook", sigc::mem_fun(*this, &Drone::toggleLandingHook));
     
-    sheet->map("switch-mfd", SigC::slot(*cockpit, &DroneCockpit::switchMfdMode));
+    sheet->map("switch-mfd", sigc::mem_fun(*cockpit, &DroneCockpit::switchMfdMode));
     
 	ls_message("</Drone::init>\n");
 }
@@ -428,9 +429,9 @@ Ptr<IView> Drone::getView(int n) {
     
     Ptr<SimpleView> view = new SimpleView(this, chaser, hud_pass);
     view->onEnable().connect(
-        SigC::slot(*gunsight, &UI::Panel::enable));
+        sigc::mem_fun(*gunsight, &UI::Panel::enable));
     view->onDisable().connect(
-        SigC::slot(*gunsight, &UI::Panel::disable));
+        sigc::mem_fun(*gunsight, &UI::Panel::disable));
     mapViewEvents(view);
     
     

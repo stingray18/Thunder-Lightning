@@ -12,6 +12,7 @@
 #include <sound.h>
 
 #include "gunsight.h"
+#include "sigc++/functors/mem_fun.h"
 
 struct MissileWarningModule : public UI::Component, public SigObject {
     std::vector<Ptr<IActor> > missiles;
@@ -181,14 +182,14 @@ struct InfoMessageModule : public UI::Component, public SigObject {
     TimestampedStrings messages;
     Ptr<Clock> clock;
 	Ptr<IFont> font;
-    SigC::Connection connection;
+    sigc::connection connection;
     bool realtime;
 	
 	InfoMessageModule(const char *name, Ptr<IGame> game)
         :	UI::Component(name, game->getScreenSurface().getWidth(), game->getScreenSurface().getHeight()*0.4f)
 	{
         connection = game->info_message_signal.connect(
-            SigC::slot(*this, &InfoMessageModule::onMessage));
+            sigc::mem_fun(*this, &InfoMessageModule::onMessage));
         connection.block(true);
         clock = game->getClock();
         game->getFontMan()->selectNamedFont("Game_info_message_font");

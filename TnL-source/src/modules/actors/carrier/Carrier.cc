@@ -17,6 +17,7 @@
 #include <remap.h>
 #include <SceneRenderPass.h>
 #include "Carrier.h"
+#include "sigc++/functors/mem_fun.h"
 
 Carrier::Carrier(Ptr<IGame> thegame
 #ifdef HAVE_IO
@@ -94,7 +95,7 @@ Carrier::Carrier(Ptr<IGame> thegame
     machinegun->factor = thegame->getConfig()->queryFloat("Carrier_Vulcan_factor", 1);
     machinegun->addBarrel(new SkeletonProvider(skeleton, "main_turret_nozzle_left", "main_turret_pivot", "main_turret_pivot_dir"));
     machinegun->addBarrel(new SkeletonProvider(skeleton, "main_turret_nozzle_right", "main_turret_pivot", "main_turret_pivot_dir"));
-    machinegun->onFireSig().connect( SigC::slot(*this, &Carrier::carrierGunFired));
+    machinegun->onFireSig().connect( sigc::mem_fun(*this, &Carrier::carrierGunFired));
     armament->addWeapon(0, machinegun);
     
     mapArmamentEvents();
@@ -172,8 +173,8 @@ Ptr<IView> Carrier::getView(int n) {
                 "frontview_viewpoint", "frontview_lookat",
                 "origin", "up"),
                 0.1f, 0.1f));
-        view->onEnable().connect(SigC::bind(
-            SigC::slot(*this, & Carrier::setControlTarget),
+        view->onEnable().connect(sigc::bind(
+            sigc::mem_fun(*this, & Carrier::setControlTarget),
             CARRIER));
         break;
     case 1:
@@ -185,8 +186,8 @@ Ptr<IView> Carrier::getView(int n) {
                 "main_turret_pivot", "main_turret_pivot_dir",
                 "main_turret_pivot", "main_turret_pivot_up"),
                 0.0f, 0.1f));
-        view->onEnable().connect(SigC::bind(
-            SigC::slot(*this, & Carrier::setControlTarget),
+        view->onEnable().connect(sigc::bind(
+            sigc::mem_fun(*this, & Carrier::setControlTarget),
             MAIN_TURRET));
         break;
     case 2:
@@ -195,8 +196,8 @@ Ptr<IView> Carrier::getView(int n) {
                 "backview_viewpoint", "backview_lookat",
                 "origin", "up"),
                 0.1f, 0.1f));
-        view->onEnable().connect(SigC::bind(
-            SigC::slot(*this, & Carrier::setControlTarget),
+        view->onEnable().connect(sigc::bind(
+            sigc::mem_fun(*this, & Carrier::setControlTarget),
             CARRIER));
         break;
     case 3:
@@ -205,8 +206,8 @@ Ptr<IView> Carrier::getView(int n) {
                 "deckview_viewpoint", "deckview_lookat",
                 "origin", "up"),
                 0.1f, 0.1f));
-        view->onEnable().connect(SigC::bind(
-            SigC::slot(*this, & Carrier::setControlTarget),
+        view->onEnable().connect(sigc::bind(
+            sigc::mem_fun(*this, & Carrier::setControlTarget),
             CARRIER));
         break;
     case 4:
@@ -215,8 +216,8 @@ Ptr<IView> Carrier::getView(int n) {
                 "landingview_viewpoint", "landingview_lookat",
                 "origin", "up"),
                 0.1f, 0.1f));
-        view->onEnable().connect(SigC::bind(
-            SigC::slot(*this, & Carrier::setControlTarget),
+        view->onEnable().connect(sigc::bind(
+            sigc::mem_fun(*this, & Carrier::setControlTarget),
             CARRIER));
         break;
     case 5:
@@ -225,8 +226,8 @@ Ptr<IView> Carrier::getView(int n) {
                 "bayview_viewpoint", "bayview_lookat",
                 "origin", "up"),
                 0.1f, 0.1f));
-        view->onEnable().connect(SigC::bind(
-            SigC::slot(*this, & Carrier::setControlTarget),
+        view->onEnable().connect(sigc::bind(
+            sigc::mem_fun(*this, & Carrier::setControlTarget),
             CARRIER));
         break;
     default:
