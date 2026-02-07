@@ -1,4 +1,5 @@
 #include "camera.h"
+#include "sigc++/functors/mem_fun.h"
 #include <modules/math/SpecialMatrices.h>
 #include <modules/environment/environment.h>
 #include <interfaces/IConfig.h>
@@ -13,8 +14,8 @@ Camera::Camera(IGame *thegame)
     setFarDistance(thegame->getEnvironment()->getClipMax());
     
     Ptr<EventRemapper> remap = thegame->getEventRemapper();
-    remap->map("zoom-in", SigC::slot(*this, &Camera::zoomIn));
-    remap->map("zoom-out", SigC::slot(*this, &Camera::zoomOut));
+    remap->map("zoom-in", sigc::mem_fun(*this, &Camera::zoomIn));
+    remap->map("zoom-out", sigc::mem_fun(*this, &Camera::zoomOut));
 }
 
 static const float zoom_factor = pow(2.0f, 1.0f/6);

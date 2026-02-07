@@ -52,11 +52,11 @@ bool SimpleView::isEnabled() {
     return is_enabled;
 }
 
-SigC::Signal0<void> & SimpleView::onEnable() {
+sigc::signal<void()> & SimpleView::onEnable() {
     return on_enable;
 }
 
-SigC::Signal0<void> & SimpleView::onDisable() {
+sigc::signal<void()> & SimpleView::onDisable() {
     return on_disable;
 }
 
