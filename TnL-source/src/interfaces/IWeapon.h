@@ -33,7 +33,7 @@ struct IWeapon : public Object {
     virtual float timeOfAcceleration()=0;
     
     virtual WeakPtr<IActor> lastFiredRound()=0;
-    virtual SigC::Signal1<void, Ptr<IWeapon> > onFireSig()=0;
+    virtual sigc::signal<void(Ptr<IWeapon>)> onFireSig()=0;
 };
 
 #endif
