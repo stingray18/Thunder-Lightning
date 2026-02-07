@@ -1,3 +1,4 @@
+#include "SDL_events.h"
 #include <algorithm>
 #include <sstream>
 #include <tnl.h>
@@ -235,25 +236,25 @@ void EventRemapper::feedEvent(SDL_Event & ev)
     }
 
     switch(ev.type) {
-    case SDL_KEYUP:
-    case SDL_KEYDOWN:
+    case SDL_EVENT_KEY_DOWN:
+		case SDL_EVENT_KEY_UP:
         keyEvent(ev.key);
         break;
-    case SDL_MOUSEBUTTONDOWN:
-    case SDL_MOUSEBUTTONUP:
+		case SDL_EVENT_MOUSE_BUTTON_DOWN:
+		case SDL_EVENT_MOUSE_BUTTON_UP:
         mouseButtonEvent(ev.button);
         break;
-    case SDL_JOYBUTTONDOWN:
-    case SDL_JOYBUTTONUP:
+		case SDL_EVENT_JOYSTICK_BUTTON_DOWN:
+		case SDL_EVENT_JOYSTICK_BUTTON_UP:
         joyButtonEvent(ev.jbutton);
         break;
-    case SDL_MOUSEMOTION:
+		case SDL_EVENT_MOUSE_MOTION:
         mouseMotionEvent(ev.motion);
         break;
-    case SDL_JOYAXISMOTION:
+		case SDL_EVENT_JOYSTICK_AXIS_MOTION:
         joyAxisEvent(ev.jaxis);
         break;
-    case SDL_JOYHATMOTION:
+		case SDL_EVENT_JOYSTICK_HAT_MOTION:
         joyHatEvent(ev.jhat);
         break;
     default:
