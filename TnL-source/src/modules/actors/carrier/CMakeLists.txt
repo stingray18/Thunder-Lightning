@@ -1,4 +1,4 @@
-set(LIBNAME actors)
+set(LIBNAME carrier)
 
 set(${LIBNAME}_SOURCES
 	Carrier.cc
