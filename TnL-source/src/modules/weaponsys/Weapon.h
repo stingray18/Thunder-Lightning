@@ -30,7 +30,7 @@ protected:
     std::vector<Barrel> barrels;
     int next_barrel;
     
-    SigC::Signal1<void, Ptr<IWeapon> > fire_signal;
+    sigc::signal<void(Ptr<IWeapon>)> fire_signal;
     WeakPtr<IActor> last_fired_round;
 public:
     Weapon(Ptr<IConfig>, const std::string & name, int rounds);
@@ -74,7 +74,7 @@ public:
     virtual float timeOfAcceleration();
     
     virtual WeakPtr<IActor> lastFiredRound();
-    virtual SigC::Signal1<void, Ptr<IWeapon> > onFireSig();
+    virtual sigc::signal<void(Ptr<IWeapon>)> onFireSig();
 };
 
 struct Weapon::Barrel {
