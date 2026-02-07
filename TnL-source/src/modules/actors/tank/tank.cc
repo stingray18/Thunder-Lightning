@@ -4,6 +4,7 @@
 #include <modules/gunsight/gunsight.h>
 #include <sigc++/bind.h>
 #include "tank.h"
+#include "sigc++/functors/mem_fun.h"
 #include <interfaces/ICamera.h>
 #include <interfaces/IConfig.h>
 #include <interfaces/IModelMan.h>
@@ -110,13 +111,13 @@ Tank::Tank(Ptr<IGame> thegame
     machinegun->addBarrel(new SkeletonProvider(skeleton, "MGBottomRight", "CannonTip", "CannonTipFront"));
     machinegun->setLoadTime(
         thegame->getConfig()->queryFloat("Tank_vulcan_loadtime", machinegun->getLoadTime()));
-    machinegun->onFireSig().connect( SigC::slot(*this, &Tank::machineGunFired));
+    machinegun->onFireSig().connect(sigc::mem_fun(*this, &Tank::machineGunFired));
     armament->addWeapon(0, machinegun);
 
     Ptr<Cannon> cannon=new Cannon(thegame, "Cannon", cfg->queryInt("Tank_cannon_rounds", 25));
     cannon->addBarrel(new SkeletonProvider(skeleton, "CannonTip", "CannonTip", "CannonTipFront"));
     cannon->factor = thegame->getConfig()->queryFloat("Tank_cannon_factor", 10);
-    cannon->onFireSig().connect( SigC::slot(*this, &Tank::cannonFired));
+    cannon->onFireSig().connect( sigc::mem_fun(*this, &Tank::cannonFired));
     armament->addWeapon(0,cannon);
     
     sound_low = thegame->getSoundMan()->requestSource();
