@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <debug.h>
 #include "status.h"
+#include "sigc++/functors/mem_fun.h"
 
 using namespace std;
 
@@ -20,7 +21,7 @@ void Status::StatusPrinter::update(Status * stat) {
 }
 
 Status::Status() {
-    status_changed.connect(SigC::slot(printer, &StatusPrinter::update));
+    status_changed.connect(sigc::mem_fun(printer, &StatusPrinter::update));
 }
 
 void Status::beginJob(const string & desc, int steps) {
