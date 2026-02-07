@@ -17,4 +17,5 @@ target_include_directories(${LIBNAME} PUBLIC
 	${CMAKE_SOURCE_DIR}/src 
 	/usr/include/sigc++-3.0
 	/usr/lib/x86_64-linux-gnu/sigc++-3.0/include
+	/usr/include/SDL3
 )

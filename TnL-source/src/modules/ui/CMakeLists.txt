@@ -1,4 +1,4 @@
-set(LIBNAME texman)
+set(LIBNAME ui)
 
 set(${LIBNAME}_SOURCES
 	Component.cc
