@@ -38,8 +38,8 @@ public:
     
     /// @name Signals to facilitate reacting to enable()/disable()
     /// @{
-    SigC::Signal0<void> & onEnable();
-    SigC::Signal0<void> & onDisable();
+    sigc::signal<void()> & onEnable();
+    sigc::signal<void()> & onDisable();
     /// @}
     
 private:
@@ -47,7 +47,7 @@ private:
     Ptr<IMovementProvider> head;
     Ptr<RenderPass> render_pass;
     bool is_enabled;
-    SigC::Signal0<void> on_enable, on_disable;
+    sigc::signal<void()> on_enable, on_disable;
     Ptr<EventRemapper> event_remapper;
     Ptr<EventSheet> event_sheet;
 };
