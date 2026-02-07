@@ -27,7 +27,6 @@ IntervalBase<T> operator* (const IntervalBase<T> & X,
 
 template<class T>
 IntervalBase<T> inv(const IntervalBase<T> & X)
-        throw(std::invalid_argument)
 {
     if (X.a > 0 || X.b < 0)
         return IntervalBase<T>(1/X.b, 1/X.a);
@@ -125,8 +124,7 @@ template
 IntervalBase<float> operator* (const IntervalBase<float> & X,
                            const IntervalBase<float> & Y);
 template
-IntervalBase<float> inv(const IntervalBase<float> & X)
-        throw(std::invalid_argument);
+IntervalBase<float> inv(const IntervalBase<float> & X);
 template
 IntervalBase<float> square(const IntervalBase<float> & x);
 
