@@ -68,5 +68,35 @@ target_include_directories(${EXE_NAME} PRIVATE
 	/usr/include/SDL3
 )
 target_link_libraries(${EXE_NAME} PRIVATE
+	LoDTerrain
+	carrier
+	drone
+	fx
+	projectiles
+	tank
+	ai
+	camera
+	clock
+	collide
+	config
+	drawing
+	engines
+	environment
+	flight
+	fontman
+	gunsight
+	jogi
+	math
+	model
+	physics
+	scripting
+	skybox
+	sound
+	texman
+	ui
+	weaponsys
+	sigc-3.0
+	SDL3
+
 )
 
