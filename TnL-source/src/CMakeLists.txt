@@ -72,6 +72,7 @@ target_link_libraries(${EXE_NAME} PRIVATE
 	projectiles
 	tank
 	ai
+	actors
 	camera
 	clock
 	collide
@@ -88,12 +89,16 @@ target_link_libraries(${EXE_NAME} PRIVATE
 	physics
 	scripting
 	skybox
-	sound
 	texman
 	ui
 	weaponsys
+	alut
+	openal
 	sigc-3.0
 	SDL3
+	GLEW
+	GL
+	png
 )
 
 target_link_directories(${EXE_NAME} PRIVATE
