@@ -101,6 +101,6 @@ float Weapon::referenceSpeed()      { return reference_speed; }
 float Weapon::timeOfAcceleration()  { return time_of_accel; }
 
 WeakPtr<IActor> Weapon::lastFiredRound() { return last_fired_round; }
-SigC::Signal1<void, Ptr<IWeapon> > Weapon::onFireSig() { return fire_signal; }
+sigc::signal<void(Ptr<IWeapon>)> Weapon::onFireSig() { return fire_signal; }
 
 
