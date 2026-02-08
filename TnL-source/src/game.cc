@@ -2,6 +2,7 @@
 #include "SDL_joystick.h"
 #include "SDL_mouse.h"
 #include "SDL_oldnames.h"
+#include "SDL_render.h"
 #include "SDL_video.h"
 #include "sigc++/functors/mem_fun.h"
 #include <stdexcept>
@@ -252,6 +253,17 @@ void Game::startupSystem(Status & stat) {
                 xres, yres,
                 fullscreen?"fullscreen":"in a window",
                 autores?"auto-detected":"manual");
+				SDL_WindowFlags windowFlags = SDL_WINDOW_OPENGL;
+				if (fullscreen) {
+					windowFlags |= SDL_WINDOW_FULLSCREEN;
+				}
+				mainWindow_ = SDL_CreateWindow("Thunder&Lightning", 1024, 768, windowFlags);
+				int nRenderDrivers = SDL_GetNumRenderDrivers();
+				for (int i = 0; i < nRenderDrivers; ++i) {
+					std::cout << "driver name : "	<< SDL_GetRenderDriver(i) << "\n";
+				}
+
+				SDL_Renderer* sdl_renderer = SDL_CreateRenderer(mainWindow_, "opengl");
 
         SDL_GL_SetAttribute( SDL_GL_RED_SIZE, config->queryInt("Game_red_bits", 8) );
         SDL_GL_SetAttribute( SDL_GL_GREEN_SIZE, config->queryInt("Game_green_bits", 8) );
@@ -275,10 +287,6 @@ void Game::startupSystem(Status & stat) {
         // } else {
         //     surface = SDL_SetVideoMode(xres, yres, 32, SDL_OPENGL);
         // }
-				SDL_WindowFlags windowFlags = SDL_WINDOW_OPENGL;
-				if (fullscreen) {
-					windowFlags |= SDL_WINDOW_FULLSCREEN;
-				}
         if (!surface) {
             ls_error("Failed requesting video mode.\n");
             throw runtime_error("Could not initialize OpenGL surface.");
@@ -297,7 +305,6 @@ void Game::startupSystem(Status & stat) {
         ls_message("Done initializing OpenGL renderer.\n");
         
         // SDL_WM_SetCaption("Thunder&Lightning http://tnlgame.net/", "Thunder&Lightning"); // TODO: replace
-				mainWindow_ = SDL_CreateWindow("Thunder&Lightning", 1024, 768, windowFlags);
     }
     ls_message("Done initializing video.\n");
     
