@@ -29,7 +29,9 @@ class Camera;
 
 class Game: public IGame, public ActorStage, public SigObject
 {
+#ifdef __EMSCRIPTEN__
     friend EM_BOOL one_iter(double time, void* userData);
+#endif
 public:
     static Game * the_game;
 
@@ -127,6 +129,7 @@ private:
     bool mouse_grabbed;
     Ptr<DataNode> debug_data;
 
+		SDL_Window* mainWindow_;
     SDL_Surface *surface;
     JOpenGLRenderer *renderer;
     const RenderContext *render_context;

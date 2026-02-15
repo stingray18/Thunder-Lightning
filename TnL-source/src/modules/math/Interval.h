@@ -10,15 +10,11 @@
 template<class T> struct IntervalBase;
 
 template<class T>
-IntervalBase<T> intersection(const IntervalBase<T> & X,
-                             const IntervalBase<T> & Y)
-        throw(std::invalid_argument);
+IntervalBase<T> intersection(const IntervalBase<T> & X, const IntervalBase<T> & Y) noexcept(false); // throw(std::invalid_argument);
 template<class T>
-IntervalBase<T> operator* (const IntervalBase<T> & X,
-                           const IntervalBase<T> & Y);
+IntervalBase<T> operator* (const IntervalBase<T> & X, const IntervalBase<T> & Y);
 template<class T>
-IntervalBase<T> inv(const IntervalBase<T> & X)
-        throw(std::invalid_argument);
+IntervalBase<T> inv(const IntervalBase<T> & X) noexcept(false);
 
 namespace std {
 	template<class T>
@@ -73,9 +69,7 @@ template<class T> struct IntervalBase {
         return X.b >= Y.a && X.a <= Y.b;
     }
 
-    friend IntervalBase intersection<>(const IntervalBase & X,
-                                     const IntervalBase & Y)
-            throw(std::invalid_argument);
+    friend IntervalBase intersection<>(const IntervalBase & X, const IntervalBase & Y) noexcept(false);
             
     inline friend const IntervalBase & operator+ (const IntervalBase & X) {
         return X;
@@ -114,25 +108,22 @@ template<class T> struct IntervalBase {
         return X = X * Y;
     }
     
-    friend IntervalBase inv<>(const IntervalBase & X)
-        throw(std::invalid_argument);
+    friend IntervalBase inv<>(const IntervalBase & X);
+
 
     inline friend IntervalBase operator/ (const IntervalBase & X,
                                           const IntervalBase & Y)
-            throw(std::invalid_argument)
     {
         return X * inv(Y);
     }
     inline friend const IntervalBase & operator /= (IntervalBase & X,
                                               const IntervalBase & Y)
-            throw(std::invalid_argument)
     {
         return X = X / Y;
     }
 
 
     inline friend IntervalBase sqrt(const IntervalBase & X)
-            throw(std::invalid_argument)
     {
         if (X.a >= 0) return IntervalBase(sqrt(X.a), sqrt(X.b));
         else throw std::invalid_argument("Interval must be >= 0.");

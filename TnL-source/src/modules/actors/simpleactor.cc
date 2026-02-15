@@ -1,3 +1,4 @@
+#include "sigc++/functors/mem_fun.h"
 #ifdef HAVE_IO
 #include <IoState.h>
 #endif
@@ -104,29 +105,29 @@ Ptr<EventSheet> SimpleActor::getEventSheet() {
 
 void SimpleActor::mapArmamentEvents() {
     Ptr<EventSheet> sheet = getEventSheet();
-    sheet->map("+primary", SigC::bind(SigC::slot(*armament, &Armament::trigger), 0));
-    sheet->map("-primary", SigC::bind(SigC::slot(*armament, &Armament::release), 0));
+    sheet->map("+primary", sigc::bind(sigc::mem_fun(*armament, &Armament::trigger), 0));
+    sheet->map("-primary", sigc::bind(sigc::mem_fun(*armament, &Armament::release), 0));
 }
 
 void SimpleActor::mapTargeterEvents() {
     Ptr<EventSheet> sheet = getEventSheet();
-    sheet->map("cycle-primary", SigC::bind(SigC::slot(*armament, &Armament::nextWeapon), 0));
-    sheet->map("next-target", SigC::slot(*targeter, &Targeter::selectNextTarget));
-    sheet->map("previous-target", SigC::slot(*targeter, &Targeter::selectPreviousTarget));
-    sheet->map("next-hostile-target", SigC::slot(*targeter, &Targeter::selectNextHostileTarget));
-    sheet->map("previous-hostile-target", SigC::slot(*targeter, &Targeter::selectPreviousHostileTarget));
-    sheet->map("next-friendly-target", SigC::slot(*targeter, &Targeter::selectNextFriendlyTarget));
-    sheet->map("previous-friendly-target", SigC::slot(*targeter, &Targeter::selectPreviousFriendlyTarget));
-    sheet->map("nearest-target", SigC::slot(*targeter, &Targeter::selectNearestTarget));
-    sheet->map("nearest-hostile-target", SigC::slot(*targeter, &Targeter::selectNearestHostileTarget));
-    sheet->map("nearest-friendly-target", SigC::slot(*targeter, &Targeter::selectNearestFriendlyTarget));
-    sheet->map("radar-range", SigC::slot(*targeter, &Targeter::selectNextDisplayRange));
-    //sheet->map("gunsight-target", SigC::slot(*targeter, &Targeter::selectTargetInGunsight));
+    sheet->map("cycle-primary", sigc::bind(sigc::mem_fun(*armament, &Armament::nextWeapon), 0));
+    sheet->map("next-target", sigc::mem_fun(*targeter, &Targeter::selectNextTarget));
+    sheet->map("previous-target", sigc::mem_fun(*targeter, &Targeter::selectPreviousTarget));
+    sheet->map("next-hostile-target", sigc::mem_fun(*targeter, &Targeter::selectNextHostileTarget));
+    sheet->map("previous-hostile-target", sigc::mem_fun(*targeter, &Targeter::selectPreviousHostileTarget));
+    sheet->map("next-friendly-target", sigc::mem_fun(*targeter, &Targeter::selectNextFriendlyTarget));
+    sheet->map("previous-friendly-target", sigc::mem_fun(*targeter, &Targeter::selectPreviousFriendlyTarget));
+    sheet->map("nearest-target", sigc::mem_fun(*targeter, &Targeter::selectNearestTarget));
+    sheet->map("nearest-hostile-target", sigc::mem_fun(*targeter, &Targeter::selectNearestHostileTarget));
+    sheet->map("nearest-friendly-target", sigc::mem_fun(*targeter, &Targeter::selectNearestFriendlyTarget));
+    sheet->map("radar-range", sigc::mem_fun(*targeter, &Targeter::selectNextDisplayRange));
+    //sheet->map("gunsight-target", sigc::mem_fun(*targeter, &Targeter::selectTargetInGunsight));
 }
 
 void SimpleActor::mapViewEvents(Ptr<SimpleView> view) {
     view->getEventSheet(thegame->getEventRemapper())->map("gunsight-target",
-        SigC::bind(SigC::slot(*this, &SimpleActor::onSelectTargetInView), ptr(view)));
+        sigc::bind(sigc::mem_fun(*this, &SimpleActor::onSelectTargetInView), ptr(view)));
 }
 
 void SimpleActor::onSelectTargetInView(IView * view) {

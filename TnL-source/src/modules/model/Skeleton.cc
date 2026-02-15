@@ -83,7 +83,8 @@ Skeleton::~Skeleton() {
     // nothing special to do
 }
 
-void Skeleton::load(Ptr<IGame> game, const std::string & filename) throw(invalid_argument) {
+void Skeleton::load(Ptr<IGame> game, const std::string & filename) 
+{
     Ptr<IModelMan> modelman = game->getModelMan();
     Ptr<Model> model = 0;
 

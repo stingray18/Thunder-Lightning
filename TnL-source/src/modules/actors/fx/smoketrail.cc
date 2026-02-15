@@ -1,5 +1,6 @@
 #include <cmath>
 #include "smoketrail.h"
+#include "sigc++/functors/mem_fun.h"
 #include <interfaces/ICamera.h>
 #include <interfaces/IConfig.h>
 #include <remap.h>
@@ -28,7 +29,7 @@ SmokeTrail::SmokeTrail(Ptr<IGame> thegame)
             config->query("SmokeTrail_puffy_tex"), JR_HINT_GREYSCALE);
     this->debug_mode = false;
     thegame->getEventRemapper()->map("debug",
-            SigC::slot(*this, &SmokeTrail::toggleDebugMode));
+            sigc::mem_fun(*this, &SmokeTrail::toggleDebugMode));
 }
 
 void SmokeTrail::action()

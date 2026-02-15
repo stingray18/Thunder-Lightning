@@ -1,4 +1,5 @@
 #include "LoDTerrain.h"
+#include "sigc++/functors/mem_fun.h"
 #include <interfaces/IConfig.h>
 #include <interfaces/ICamera.h>
 #include <remap.h>
@@ -112,7 +113,7 @@ LoDQuadManager::LoDQuadManager(IGame *the_game, Status & stat)
     counter=0;
 
     game->getEventRemapper()->map("debug",
-            SigC::slot(*this, &LoDQuadManager::toggleDebugMode));
+            sigc::mem_fun(*this, &LoDQuadManager::toggleDebugMode));
     debug_mode = false;
 
     loadTextures();

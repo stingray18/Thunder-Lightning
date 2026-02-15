@@ -21,6 +21,8 @@
 #include <TargetInfo.h>
 
 #include "drone.h"
+#include "sigc++/functors/mem_fun.h"
+#include "sigc++/trackable.h"
 
 #include "DroneCockpit.h"
 
@@ -104,7 +106,7 @@ public:
     }
 };
 
-class MissileViewModule : public MfdModule, public SigC::Object {
+class MissileViewModule : public MfdModule, public sigc::trackable {
     typedef std::vector<Ptr<Weapon> > Weapons;
     Weapons weapons;
     WeakPtr<IGame> game;
@@ -160,7 +162,7 @@ public:
     
     void addWeapon(Ptr<Weapon> w) {
         weapons.push_back(w);
-        w->onFireSig().connect( SigC::slot(*this, &MissileViewModule::onFire) );
+        w->onFireSig().connect( sigc::mem_fun(*this, &MissileViewModule::onFire) );
     }
     
     virtual Ptr<RenderPass> createRenderPass(JRenderer * renderer) {
@@ -169,7 +171,7 @@ public:
 
         Ptr<MissilePass> pass = new MissilePass(game, renderer);
         for(Weapons::iterator i=weapons.begin(); i!= weapons.end(); ++i) {
-            (*i)->onFireSig().connect( SigC::slot(*pass, &MissilePass::onFire));
+            (*i)->onFireSig().connect( sigc::mem_fun(*pass, &MissilePass::onFire));
         }
         
         if (last_fired_weapon) {
@@ -308,7 +310,7 @@ class TargetViewModule : public MfdModule {
                 mirror_cam->setTarget(cam);
             }
             
-            preDepends().connect(SigC::slot(*this, &TargetPass::update));
+            preDepends().connect(sigc::mem_fun(*this, &TargetPass::update));
         }
         
         void update(Ptr<RenderPass>) {
@@ -407,7 +409,7 @@ public:
 };
 
 
-class RadarModule : public MfdModule, public SigC::Object {
+class RadarModule : public MfdModule, public sigc::trackable {
     WeakPtr<IGame> game;
     Ptr<Targeter> targeter;
     Ptr<IPositionProvider> subject, view;
@@ -457,7 +459,7 @@ public:
         
         Ptr<RenderPass> radar = new RenderPass(renderer);
         radar->enableClearColor(true);
-        radar->preDraw().connect(SigC::slot(*this, &RadarModule::draw));
+        radar->preDraw().connect(sigc::mem_fun(*this, &RadarModule::draw));
         
         Ptr<UI::Panel> panel = new UI::Panel(renderer);
         Ptr<IFontMan> fontman = thegame->getFontMan();
@@ -672,7 +674,7 @@ Ptr<RenderPass> DroneCockpit::createRenderPass(Ptr<ICamera> cam) {
     
     result->addDependency(mfd_pass, mfd_tex);
     result->postDraw().connect(
-        SigC::bind(SigC::slot(*this, &DroneCockpit::drawCockpit), cam));
+        sigc::bind(sigc::mem_fun(*this, &DroneCockpit::drawCockpit), cam));
     
     return result;
 }

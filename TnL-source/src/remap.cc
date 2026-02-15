@@ -1,3 +1,4 @@
+#include "SDL_events.h"
 #include <algorithm>
 #include <sstream>
 #include <tnl.h>
@@ -235,25 +236,25 @@ void EventRemapper::feedEvent(SDL_Event & ev)
     }
 
     switch(ev.type) {
-    case SDL_KEYUP:
-    case SDL_KEYDOWN:
+    case SDL_EVENT_KEY_DOWN:
+		case SDL_EVENT_KEY_UP:
         keyEvent(ev.key);
         break;
-    case SDL_MOUSEBUTTONDOWN:
-    case SDL_MOUSEBUTTONUP:
+		case SDL_EVENT_MOUSE_BUTTON_DOWN:
+		case SDL_EVENT_MOUSE_BUTTON_UP:
         mouseButtonEvent(ev.button);
         break;
-    case SDL_JOYBUTTONDOWN:
-    case SDL_JOYBUTTONUP:
+		case SDL_EVENT_JOYSTICK_BUTTON_DOWN:
+		case SDL_EVENT_JOYSTICK_BUTTON_UP:
         joyButtonEvent(ev.jbutton);
         break;
-    case SDL_MOUSEMOTION:
+		case SDL_EVENT_MOUSE_MOTION:
         mouseMotionEvent(ev.motion);
         break;
-    case SDL_JOYAXISMOTION:
+		case SDL_EVENT_JOYSTICK_AXIS_MOTION:
         joyAxisEvent(ev.jaxis);
         break;
-    case SDL_JOYHATMOTION:
+		case SDL_EVENT_JOYSTICK_HAT_MOTION:
         joyHatEvent(ev.jhat);
         break;
     default:
@@ -280,8 +281,8 @@ bool EventRemapper::triggerAction(const char * action)
 
 void EventRemapper::keyEvent(SDL_KeyboardEvent & ev)
 {
-    int key = ev.keysym.sym;
-    bool pressed = (ev.state == SDL_PRESSED);
+    int key = ev.key;
+    bool pressed = (ev.down == true);
     
     buttonEvent(Button(KEYBOARD_KEY, 0, key), pressed);
 }
@@ -289,7 +290,7 @@ void EventRemapper::keyEvent(SDL_KeyboardEvent & ev)
 void EventRemapper::mouseButtonEvent(SDL_MouseButtonEvent & ev)
 {
     int button = ev.button;
-    bool pressed = (ev.state == SDL_PRESSED);
+    bool pressed = (ev.down == true);
     
     buttonEvent(Button(MOUSE_BUTTON, 0, button), pressed);
 }
@@ -307,7 +308,7 @@ void EventRemapper::joyButtonEvent(SDL_JoyButtonEvent & ev)
 {
     int joy = ev.which;
     int button = ev.button;
-    bool pressed = (ev.state == SDL_PRESSED);
+    bool pressed = (ev.down == true);
     
     buttonEvent(Button(JOYSTICK_BUTTON, joy, button), pressed);
 }

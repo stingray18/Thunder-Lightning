@@ -4,6 +4,7 @@
 #include <remap.h>
 #include <RenderPass.h>
 #include "Observer.h"
+#include "sigc++/functors/mem_fun.h"
 
 Observer::Observer(Ptr<IGame> thegame)
     : SimpleActor(thegame)
@@ -13,8 +14,7 @@ Observer::Observer(Ptr<IGame> thegame)
     mapEvents();
     setControlMode(MANUAL);
     setEngine(new ObserverEngine(thegame));
-    thegame->pre_draw.connect(
-        SigC::slot(*this, &Observer::update));
+    thegame->pre_draw.connect( sigc::mem_fun(*this, &Observer::update));
 }
 
 void Observer::action() {
@@ -62,11 +62,11 @@ void Observer::draw() {
 
 void Observer::mapEvents() {
     Ptr<EventSheet> sheet = getEventSheet();
-    sheet->map("+observer-dolly", SigC::bind(SigC::slot(*this, &Observer::setDollying), true));
-    sheet->map("-observer-dolly", SigC::bind(SigC::slot(*this, &Observer::setDollying), false));
-    sheet->map("+observer-pan", SigC::bind(SigC::slot(*this, &Observer::setPanning), true));
-    sheet->map("-observer-pan", SigC::bind(SigC::slot(*this, &Observer::setPanning), false));
-    sheet->map("observer-stop", SigC::slot(*this, &Observer::stop));
+    sheet->map("+observer-dolly", sigc::bind(sigc::mem_fun(*this, &Observer::setDollying), true));
+    sheet->map("-observer-dolly", sigc::bind(sigc::mem_fun(*this, &Observer::setDollying), false));
+    sheet->map("+observer-pan", sigc::bind(sigc::mem_fun(*this, &Observer::setPanning), true));
+    sheet->map("-observer-pan", sigc::bind(sigc::mem_fun(*this, &Observer::setPanning), false));
+    sheet->map("observer-stop", sigc::mem_fun(*this, &Observer::stop));
 }
 
 void Observer::setDollying(bool b) {

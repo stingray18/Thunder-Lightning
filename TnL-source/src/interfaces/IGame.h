@@ -1,6 +1,7 @@
 #ifndef IGAME_H
 #define IGAME_H
 
+#include "sigc++/signal.h"
 #include <object.h>
 #include <interfaces/IActorStage.h>
 #include <modules/ui/Surface.h>
@@ -76,12 +77,12 @@ struct IGame : virtual public Object, virtual public IActorStage, virtual public
     /// @note For the message to show up, the current gunsight
     ///       must have an InfoMessage module.
     virtual void infoMessage(const char * msg, const Vector color=Vector(1,1,1))=0;
-    
-    typedef SigC::Signal2<void, const char *, const Vector&> InfoMessageSignal;
+
+    typedef sigc::signal<void(const char *, const Vector&)> InfoMessageSignal;
     /// Allow listeners to hook into infoMessages
     InfoMessageSignal info_message_signal;
     
-    typedef SigC::Signal0<void> DrawSignal;
+    typedef sigc::signal<void()> DrawSignal;
     DrawSignal pre_draw, post_draw;
     
     /// Obsolete time delta function. Replaced by Clock.

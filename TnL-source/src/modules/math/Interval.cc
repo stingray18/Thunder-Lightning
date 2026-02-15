@@ -4,10 +4,8 @@
 
 using namespace std;
 
-template<class T>
-IntervalBase<T> intersection(const IntervalBase<T> & X,
-							 const IntervalBase<T> & Y)
-            throw(std::invalid_argument)
+template<class T> IntervalBase<T>
+intersection(const IntervalBase<T> & X, const IntervalBase<T> & Y) noexcept(false) // throw(std::invalid_argument)
 {
     IntervalBase<T> result(std::max(X.a, Y.a), std::min(X.b, Y.b));
     if (result.length() < 0)
@@ -29,7 +27,6 @@ IntervalBase<T> operator* (const IntervalBase<T> & X,
 
 template<class T>
 IntervalBase<T> inv(const IntervalBase<T> & X)
-        throw(std::invalid_argument)
 {
     if (X.a > 0 || X.b < 0)
         return IntervalBase<T>(1/X.b, 1/X.a);
@@ -127,8 +124,7 @@ template
 IntervalBase<float> operator* (const IntervalBase<float> & X,
                            const IntervalBase<float> & Y);
 template
-IntervalBase<float> inv(const IntervalBase<float> & X)
-        throw(std::invalid_argument);
+IntervalBase<float> inv(const IntervalBase<float> & X);
 template
 IntervalBase<float> square(const IntervalBase<float> & x);
 

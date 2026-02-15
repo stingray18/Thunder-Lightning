@@ -40,7 +40,8 @@ public:
 	static void backtrace();
 };
 
-class SigObject: virtual public Object, virtual public SigC::Object { };
+// class SigObject: virtual public Object, virtual public sigc::Object { };
+class SigObject: virtual public Object { };
 
 #if OBJECT_DEBUG
     #define REF(p) do{ (p)->ref(); (p)->addReference(ctx); } while (false)
