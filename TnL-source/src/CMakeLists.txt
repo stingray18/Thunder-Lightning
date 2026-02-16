@@ -95,7 +95,7 @@ target_link_libraries(${EXE_NAME} PRIVATE
 	alut
 	openal
 	sigc-3.0
-	SDL3
+	SDL3::SDL3
 	GLEW
 	GL
 	png
