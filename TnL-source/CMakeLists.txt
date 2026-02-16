@@ -60,25 +60,3 @@ find_library(LIB_CPPUNIT cppunit REQUIRED)
 
 add_subdirectory(src)
 
-
-
-# strip debug symbols into file
-# 1.<Run "objcopy --only-keep-debug foo foo.dbg" to>
-#              create a file containing the debugging info.
-#
-#           1.<Run "objcopy --strip-debug foo" to create a>
-#               stripped executable.
-#
-#           1.<Run "objcopy --add-gnu-debuglink=foo.dbg foo">
-#               to add a link to the debugging info into the stripped
-#               executable.
-#
-#           Note---the choice of ".dbg" as an extension for the debug
-#           info file is arbitrary.  Also the "--only-keep-debug" step is
-#           optional.  You could instead do this:
-#
-#           1.<Link the executable as normal.>
-#           1.<Copy "foo" to "foo.full">
-#           1.<Run "strip --strip-debug foo">
-#           1.<Run "objcopy --add-gnu-debuglink=foo.full foo">
-
