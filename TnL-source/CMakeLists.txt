@@ -58,5 +58,8 @@ string(TIMESTAMP PROJECT_VERSION "%Y%m%d")
 # find cppunit
 find_library(LIB_CPPUNIT cppunit REQUIRED)
 
+# find SDL3
+find_package(SDL3)
+
 add_subdirectory(src)
 
