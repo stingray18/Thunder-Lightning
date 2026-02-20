@@ -59,7 +59,7 @@ target_sources(${EXE_NAME} PRIVATE
 target_include_directories(${EXE_NAME} PRIVATE
 	${CMAKE_SOURCE_DIR}/src
 	${OpenGL_INCLUDE_DIRS}
-	/usr/include/AL
+	${OPENAL_INCLUDE_DIR}
 	${SDL3_INCLUDE_DIRS}
 	${SIGCPP_INCLUDE_DIRS}
 )
@@ -93,12 +93,12 @@ target_link_libraries(${EXE_NAME} PRIVATE
 	ui
 	weaponsys
 	alut
-	openal
+	OpenAL::OpenAL
 	${SIGCPP_LIBRARIES}
 	SDL3::SDL3
-	GLEW
-	GL
-	png
+	GLEW::GLEW
+	OpenGL::OpenGL
+	PNG::PNG
 )
 
 target_link_directories(${EXE_NAME} PRIVATE
