@@ -58,9 +58,9 @@ target_sources(${EXE_NAME} PRIVATE
 )
 target_include_directories(${EXE_NAME} PRIVATE
 	${CMAKE_SOURCE_DIR}/src
-	/usr/include/GL
+	${OpenGL_INCLUDE_DIRS}
 	/usr/include/AL
-	/usr/include/SDL3
+	${SDL3_INCLUDE_DIRS}
 	${SIGCPP_INCLUDE_DIRS}
 )
 

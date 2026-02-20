@@ -65,5 +65,8 @@ find_package(SDL3)
 include(FindPkgConfig)
 pkg_check_modules(SIGCPP REQUIRED sigc++-3.0)
 
+# find OpenGL
+find_package(OpenGL)
+
 add_subdirectory(src)
 
