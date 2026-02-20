@@ -61,5 +61,9 @@ find_library(LIB_CPPUNIT cppunit REQUIRED)
 # find SDL3
 find_package(SDL3)
 
+# find sigc++ (from the sigc++ documentation)
+include(FindPkgConfig)
+pkg_check_modules(SIGCPP REQUIRED sigc++-3.0)
+
 add_subdirectory(src)
 
