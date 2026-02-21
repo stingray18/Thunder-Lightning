@@ -59,7 +59,7 @@ string(TIMESTAMP PROJECT_VERSION "%Y%m%d")
 find_library(LIB_CPPUNIT cppunit REQUIRED)
 
 # find SDL3
-find_package(SDL3)
+find_package(SDL3 REQUIRED CONFIG REQUIRED COMPONENTS SDL3 Headers)
 
 # find sigc++ (from the sigc++ documentation)
 include(FindPkgConfig)
