@@ -18,6 +18,5 @@ target_sources(${LIBNAME} PUBLIC
 )
 target_include_directories(${LIBNAME} PUBLIC 
 	${CMAKE_SOURCE_DIR}/src 
-	/usr/include/SDL3
 	${SIGCPP_INCLUDE_DIRS}
 )
