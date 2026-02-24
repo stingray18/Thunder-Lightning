@@ -58,12 +58,12 @@ target_sources(${EXE_NAME} PRIVATE
 )
 target_include_directories(${EXE_NAME} PRIVATE
 	${CMAKE_SOURCE_DIR}/src
-	/usr/include/sigc++-3.0
-	/usr/lib/x86_64-linux-gnu/sigc++-3.0/include
-	/usr/include/GL
-	/usr/include/AL
-	/usr/include/SDL3
+	${OpenGL_INCLUDE_DIRS}
+	${OPENAL_INCLUDE_DIR}
+	${SDL3_INCLUDE_DIRS}
+	${SIGCPP_INCLUDE_DIRS}
 )
+
 target_link_libraries(${EXE_NAME} PRIVATE
 	LoDTerrain
 	carrier
@@ -93,12 +93,12 @@ target_link_libraries(${EXE_NAME} PRIVATE
 	ui
 	weaponsys
 	alut
-	openal
-	sigc-3.0
-	SDL3
-	GLEW
-	GL
-	png
+	OpenAL::OpenAL
+	${SIGCPP_LIBRARIES}
+	SDL3::SDL3
+	GLEW::GLEW
+	OpenGL::OpenGL
+	PNG::PNG
 )
 
 target_link_directories(${EXE_NAME} PRIVATE

@@ -57,64 +57,23 @@ string(TIMESTAMP PROJECT_VERSION "%Y%m%d")
 
 # find cppunit
 find_library(LIB_CPPUNIT cppunit REQUIRED)
-# find doxygen
-# find_package(Doxygen)
-# if (DOXYGEN_FOUND)
-# 	set(DOXYGEN_IN "")
-# 	add_custom_target(doxygen_docs ALL
-# 		COMMAND ${Doxygen::doxygen}
-# 		WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-# 	)
-# else()
-# 	message("Install Doxygen to generate the API documentation")
-# endif (DOXYGEN_FOUND)
+
+# find SDL3
+find_package(SDL3 REQUIRED CONFIG REQUIRED COMPONENTS SDL3 Headers)
+
+# find sigc++ (from the sigc++ documentation)
+include(FindPkgConfig)
+pkg_check_modules(SIGCPP REQUIRED sigc++-3.0)
+
+# find OpenGL and helpers
+find_package(OpenGL)
+find_package(GLEW)
+
+#find OpenAL
+find_package(OpenAL)
+
+# find libpng
+find_package(PNG)
 
 add_subdirectory(src)
-
-# find_package(Doxygen)
-# option(BUILD_DOCUMENTATION "Create and install the HTML based API
-# documentation (requires Doxygen)" ${DOXYGEN_FOUND})
-#
-# if(BUILD_DOCUMENTATION)
-#     if(NOT DOXYGEN_FOUND)
-#          message(FATAL_ERROR "Doxygen is needed to build the documentation.")
-#     endif()
-#
-# 		set(doxyfile_in ${CMAKE_CURRENT_SOURCE_DIR}/doc/Doxyfile.in)
-#     set(doxyfile ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
-#
-#     configure_file(${doxyfile_in} ${doxyfile} @ONLY)
-#
-#     message("Doxygen build started.")
-#
-#     add_custom_target(doc
-#                       COMMAND ${DOXYGEN_EXECUTABLE} ${doxyfile}
-# 											WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-#                       COMMENT "Generating API documentation with Doxygen"
-#                       VERBATIM)
-#
-#     #    install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/html DESTINATION     share/doc)
-# endif()
-
-
-
-# strip debug symbols into file
-# 1.<Run "objcopy --only-keep-debug foo foo.dbg" to>
-#              create a file containing the debugging info.
-#
-#           1.<Run "objcopy --strip-debug foo" to create a>
-#               stripped executable.
-#
-#           1.<Run "objcopy --add-gnu-debuglink=foo.dbg foo">
-#               to add a link to the debugging info into the stripped
-#               executable.
-#
-#           Note---the choice of ".dbg" as an extension for the debug
-#           info file is arbitrary.  Also the "--only-keep-debug" step is
-#           optional.  You could instead do this:
-#
-#           1.<Link the executable as normal.>
-#           1.<Copy "foo" to "foo.full">
-#           1.<Run "strip --strip-debug foo">
-#           1.<Run "objcopy --add-gnu-debuglink=foo.full foo">
 
