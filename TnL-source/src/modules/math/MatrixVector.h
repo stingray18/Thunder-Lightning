@@ -41,7 +41,7 @@ template<int N, int M, class T>
 inline XVector<N,T> operator* (const XMatrix<M,T> & A,
                                const XVector<N,T> & a)
 {
-    BOOST_STATIC_ASSERT(N == M || M == (N+1));
+    static_assert(N == M || M == (N+1));
     XVector<N,T> v(a);
     return operator*=<N,T>(v,A);
 }
