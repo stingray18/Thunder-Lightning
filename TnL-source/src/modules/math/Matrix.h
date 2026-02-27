@@ -7,14 +7,6 @@
 #include <cassert>
 #include "Vector.h"
 
-#ifndef BOOST_STATIC_ASSERT
-#ifdef WITHOUT_BOOST
-    #define BOOST_STATIC_ASSERT(E) assert(E)
-#else
-    #include <boost/static_assert.hpp>
-#endif
-#endif
-
 /*
 
 We define a matrix as an array of N row vectors each with N entries. So we get
@@ -40,7 +32,7 @@ public:
     inline XMatrix(T m00, T m01,
                    T m10, T m11)
     {
-        BOOST_STATIC_ASSERT(N==2);
+        static_assert(N==2);
         XMatrix & m=*this;
         m(0,0) = m00;
         m(0,1) = m01;
@@ -52,7 +44,7 @@ public:
                    T m10, T m11, T m12,
                    T m20, T m21, T m22)
     {
-        BOOST_STATIC_ASSERT(N==3);
+        static_assert(N==3);
         XMatrix & m=*this;
         m(0,0) = m00;
         m(0,1) = m01;
@@ -70,7 +62,7 @@ public:
                    T m20, T m21, T m22, T m23,
                    T m30, T m31, T m32, T m33)
     {
-        BOOST_STATIC_ASSERT(N==4);
+        static_assert(N==4);
         XMatrix & m=*this;
         m(0,0) = m00;
         m(0,1) = m01;
@@ -301,7 +293,7 @@ XMatrix<N,T>& XMatrix<N,T>::transposeHom() {
 
 template<int N, class T>
 void XMatrix<N,T>::orthoNormalize() {
-    BOOST_STATIC_ASSERT(N==4 || N==3);
+    static_assert(N==4 || N==3);
 
     if (N==4) {
         XMatrix<4,T> & M = (XMatrix<4,T> &) *this;

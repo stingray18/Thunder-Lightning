@@ -6,13 +6,6 @@
 #include <cstdio>
 #include <cassert>
 
-#ifndef BOOST_STATIC_ASSERT
-#ifdef WITHOUT_BOOST
-    #define BOOST_STATIC_ASSERT(E) assert(E)
-#else
-    #include <boost/static_assert.hpp>
-#endif
-#endif
 
 template<int N, class T> class XVector;
 
@@ -47,29 +40,29 @@ public:
     }
 
     inline XVector(T v0) {
-        BOOST_STATIC_ASSERT(N==1);
+        static_assert(N==1);
         v[0] = v0;
     }
     inline XVector(T v0, T v1) {
-        BOOST_STATIC_ASSERT(N==2);
+        static_assert(N==2);
         v[0] = v0;
         v[1] = v1;
     }
     inline XVector(T v0, T v1, T v2) {
-        BOOST_STATIC_ASSERT(N==3);
+        static_assert(N==3);
         v[0] = v0;
         v[1] = v1;
         v[2] = v2;
     }
     inline XVector(T v0, T v1, T v2, T v3) {
-        BOOST_STATIC_ASSERT(N==4);
+        static_assert(N==4);
         v[0] = v0;
         v[1] = v1;
         v[2] = v2;
         v[3] = v3;
     }
     inline XVector(T v0, T v1, T v2, T v3, T v4) {
-        BOOST_STATIC_ASSERT(N==5);
+        static_assert(N==5);
         v[0] = v0;
         v[1] = v1;
         v[2] = v2;
@@ -173,7 +166,7 @@ public:
 
 // Cross product for dim 3
     inline XVector operator% (const XVector & b) const {
-        BOOST_STATIC_ASSERT(N==3);
+        static_assert(N==3);
         const XVector & a = *this;
         XVector r;
         r[0] = a[1]*b[2] - b[1]*a[2];
@@ -183,7 +176,7 @@ public:
     }
 
     inline const XVector & operator%= (const XVector & a) {
-        BOOST_STATIC_ASSERT(N==3);
+        static_assert(N==3);
         return *this = (*this) % a;
     }
 
